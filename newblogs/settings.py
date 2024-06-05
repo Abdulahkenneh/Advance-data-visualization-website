@@ -36,14 +36,14 @@ SECRET_KEY =config('SECRET_KEY')
 DEBUG =config('DEBUG') =='True'
 
 # Application definition
-#GOOGLE CLOUD STORAGE SETTING
-# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-# GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
-# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-#     os.path.join(BASE_DIR, 'demon/demon.json')
-# )
+# GOOGLE CLOUD STORAGE SETTING
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'demon/demon.json')
+)
 
-#MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 
 
 SITE_ID = 1
@@ -137,7 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-MEDIA_URL ='media'
+#MEDIA_URL ='media'
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
