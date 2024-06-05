@@ -1,0 +1,29 @@
+{% extends "blogs/base.html" %}
+
+{% block content %}
+  <h2> Co als s urses</h2>
+  {% if courses %}
+    <ul>
+      {% for course in courses %}
+        <li>
+          {{ course.title }}
+          {% if not is_superuser %}
+            <!-- Display progress and completion status for regular users -->
+            <div>Overall Progress: {{ course.user_progress }}%</div>
+            <div>Is Complete: {{ course.complete }}</div>
+          {% else %}
+            <!-- Display progress and completion status for all users for admin -->
+            <ul>
+              {% for progress in course.user_progress %}
+                <li>{{ progress.user.username }}: {{ progress.progress }}%</li>
+              {% endfor %}
+            </ul>
+            <div>Is Complete: {{ course.complete }}</div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No courses available.</p>
+  {% endif %}
+{% endblock %}

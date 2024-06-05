@@ -1,0 +1,49 @@
+{% extends 'blogs/base.html' %}
+{% block title %}Buy or sell technologies | {% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Search Box -->
+        <div class="col-12 mb-4">
+            <form method="get" action="">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Search for items in the Tech Store" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Items List -->
+        <div class="col-12">
+            <div class="row">
+                {% for item in items %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        {% if item.image %}
+
+                        <img src="{{item.image.url}}" class="card-img-top" alt="{{ item.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">{{ item.discription }}</p>
+                            <p class="card-text"><strong>${{ item.price }}</strong></p>
+                            <a href="" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if not items %}
+            <div class="col-12">
+                <p>No items found.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

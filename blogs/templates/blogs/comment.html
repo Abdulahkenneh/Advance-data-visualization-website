@@ -1,0 +1,15 @@
+
+ {% load static %}
+ {% load widget_tweaks %}
+ {{form.media}}
+ {% block comment %}
+ <h4 >Subscribe to our Newsletter</h4>
+   <div class="col-md-8"  >
+            <form method="post" >
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" name="comment_submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+   </div>
+
+{% endblock %}

@@ -1,0 +1,140 @@
+<!-- blogs/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    {% load widget_tweaks %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} Mastering Data Analylitic</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/blogpost.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Maven+Pro:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rakkas&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <!--summernote -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous">
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light mt-4" style="background-color:rgb(43, 22, 224)">
+        <a class="navbar-brand" href="{% url 'blogs:home' %}" style="margin-left:5px;box-shadow:0 25px 50px rgba(0,0,0,0.8);padding:10px">Code with Kenneh</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs:post' %}">Blog</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs:all_courses' %}">Courses</a>
+                </li>
+
+                <li>
+                     {% if request.user.is_authenticated %}
+                  <a class="btn btn-primary" href="{% url 'blogs:logout' %}" style="height:">Logout </a>
+
+                </li>
+                <li>
+                    {% else %}
+                  <a class="btn btn-success" href="{% url 'blogs:login' %}">Login </a>
+                {% endif %}
+                </li>
+            </ul>
+        </div>
+
+
+
+
+
+            <div class="btn-group" style="margin-right:50px">
+                  <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      {% if request.user.is_authenticated %}
+                      {% if request.user.profile.image %}
+                     <img src="{{ request.user.profile.image.url }}" alt="{{post.title}}"  style="width: 35px; height: 35px;border-radius:50%">    {% else %}
+                       <p style="color:white">{{request.user}}</p>
+                      {% endif %}
+                      {% else %}
+                      {% endif %}
+
+                  </button>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'blogs:profile' %}">profile </a>
+                    <a class="dropdown-item" href="#">Achievements</a>
+                    <div class="dropdown-divider"></div>
+                  </div>
+                </div>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </nav>
+        {% block content %}{% endblock %}
+
+
+
+    <footer class="bg-dark text-light pt-5 pb-3">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-4 mb-3">
+                <h5>About Us</h5>
+                <p>Unlock the latest insights and strategies in data analytics. We provide innovative solutions and connect you with the expertise you need to drive your business forward.</p>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="col-md-4 mb-3">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li><a href="mailto:info@code-with-kenneh.com" class="text-light">info@code-with-kenneh.com</a></li>
+                    <li><a href="tel:+49017669258588" class="text-light">+49 017 669 258 588</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter Section -->
+            <div class="col-md-4 mb-3">
+                <h5>Newsletter</h5>
+                <p>Stay updated with the latest trends and insights in data analytics. Subscribe to our newsletter.</p>
+                <div class="row mb-4">
+        <div class="col-md-6">
+           <div class="container mt-5">
+
+
+
+        </div>
+          </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <p>© 2024. All rights reserved. | <a href="#" class="text-light">Privacy Policy</a> | <a href="#" class="text-light">Terms of Service</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js" integrity="sha256-5slxYrL5Ct3mhMAp/dgnb5JSnTYMtkr4dHby34N10qw=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script scr="{% static 'Javascript/post.js' %}"></script>
+    <script scr="{% static 'Javascript/style.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        hljs.highlightAll();
+    });
+</script>
+</body>
+
+
+</html>

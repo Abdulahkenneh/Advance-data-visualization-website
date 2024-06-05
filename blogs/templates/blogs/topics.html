@@ -1,0 +1,59 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Left side - Topics list -->
+        <aside class="col-md-3 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Topics</h5>
+                    <ul class="list-group list-group-flush">
+                        <h2>Python programming</h2>
+                        {% for topic in topics %}
+                        {% if 'Python' in topic.course.title %}
+
+                            <li class="list-group-item">
+                                <a href="{% url 'blogs:topics' topic.id %}">{{ topic.title }}</a>
+                            </li>
+                        {% else %}
+                        {% endif %}
+                        {% endfor %}
+                        <h2>Javascript programming</h2>
+                        {% for topic in topics %}
+
+                          {% if 'Javascript' in topic.course.title %}
+                            <li class="list-group-item">
+                                <a href="{% url 'blogs:topics' topic.id %}">{{ topic.title }}</a>
+                            </li>
+                        {% else %}
+                        {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Right side - Single topic -->
+        <section class="col-md-9 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    {% if topic %}
+                        <h1 class="card-title" style="font-family:Roboto; sans-serif;
+                             font-weight: 800;
+                           
+  font-style: normal;margin-bottom:50px;">{{ topic.title }}</h1>
+                        <article>
+                            <p class="post-content" style="width:100%;overflow-x: scroll">{{ topic.body|safe }}</p>
+                        </article>
+                    {% else %}
+                        <h1 class="card-title">Select a topic</h1>
+                        <p>Please select a topic from the list on the left to view its details.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}

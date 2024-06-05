@@ -1,0 +1,47 @@
+{% extends "blogs/base.html" %}
+{% block title %}{{request.user}}|Courses{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <!-- Message Display Section -->
+    {% if messages %}
+    <div class="row">
+        <div class="col-md-12">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <span  style="color:green;text-align:center;margin-bottom:2rem">Hi {{ request.user }},the quize section can only be seen if you have  compleate course and need at least 75% to pass this course before obtaining the certificate. Good luck! </span>
+
+    <div class="container">
+        <h1 class="mb-4 mt-5">My Courses</h1>
+        <div class="list-group">
+            {% for item in user_course_progress %}
+            <div class="list-group-item">
+                <h5 class="mb-1">{{ item.course.title }}</h5>
+                <small>Overall Progress: {{ item.progress|floatformat:2 }}%</small>
+                <div class="progress mt-2">
+                    <div class="progress-bar" role="progressbar" style="width: {{ item.progress }}%;" aria-valuenow="{{ item.progress }}" aria-valuemin="0" aria-valuemax="100">{{ item.progress|floatformat:2 }}%</div>
+                </div>
+                    {% if item.progress == 100 %}
+                  <a href="{% url 'blogs:course_topics' item.course.id %}" class="btn btn-primary btn-sm mt-2">View Topics</a>
+                  <a href="{% url 'blogs:take_quiz' item.course.id %}" class="btn btn-danger btn-sm mt-2">Take Quiz</a>
+                 {% else %}
+                  <a href="{% url 'blogs:course_topics' item.course.id %}" class="btn btn-primary btn-sm mt-2">View Topics</a>
+                  <a href="{% url 'blogs:confirm' item.course.id %}" class="btn btn-danger btn-sm mt-2">Unregister</a>
+
+                {% endif %}
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

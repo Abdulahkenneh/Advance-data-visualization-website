@@ -1,0 +1,26 @@
+ {% load static %}
+
+ {% load widget_tweaks %}
+ {{form.media}}
+{% block subsriber %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Send me a comment</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'blogs:entry' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group mb-4">
+                            {{form.as_p}}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

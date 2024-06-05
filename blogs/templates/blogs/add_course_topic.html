@@ -1,0 +1,50 @@
+{% extends 'blogs/base.html' %}
+{% block title %}Add New Topic {% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Create Topic</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'blogs:add_topic' %}" method="post">
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {% if form.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                <strong>Error:</strong> Please correct the following errors.
+                                <ul>
+                                    {% for field, error_list in form.errors.items %}
+                                        {% for error in error_list %}
+                                            <li>{{ field|title }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            {{ form.course }}
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            {{ form.title}}
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Content</label>
+                            {{ form.body }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

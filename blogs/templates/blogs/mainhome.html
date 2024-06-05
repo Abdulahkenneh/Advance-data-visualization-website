@@ -1,0 +1,81 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+    <main class="container-fluid mt-4">
+        <div class="row">
+            <aside class="col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Topics</h5>
+                        <div id="topicsCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                            <div class="carousel-inner">
+                                {% for topic in topics %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <p>{{ topic.title }}</p>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            <section class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title">Blog Post Title</h1>
+                        <article>
+                            <p>This is the blog post content...</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <aside class="col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Courses</h5>
+                        <ul>
+                            {% for course in courses %}
+                            <li>{{ course.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        <div class="recent-posts">
+            <h2>Recent Posts</h2>
+            <div class="row">
+                {% for post in page_obj %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.summary }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </main>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+<!-- blogs/course_list.html -->
+{% extends "blogs/base.html" %}
+{% block title %}{{request.user}}|{{ course.title }}| {% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">My Courses</h1>
+    <div class="list-group">
+        {% for course in courses %}
+        <div class="list-group-item">
+            <h5 class="mb-1">{{ course.title }}</h5>
+            <small>Overall Progress: {{ course.overall_progress|floatformat:2 }}%</small>
+            <div class="progress mt-2">
+                <div class="progress-bar" role="progressbar" style="width: {{ course.overall_progress }}%;" aria-valuenow="{{ course.overall_progress }}" aria-valuemin="0" aria-valuemax="100">{{ course.overall_progress|floatformat:2 }}%</div>
+            </div>
+            <a href="{% url 'course_topics' course.id %}" class="btn btn-primary btn-sm mt-2">View Topics</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

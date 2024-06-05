@@ -1,0 +1,24 @@
+/* static/blogs/style.css */
+body {
+    padding-top: 56px;
+}
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card{
+background:blue;
+}
+.navbar-brand {
+    font-size: 1.8rem;
+}
+
+.list-group-item {
+    margin-bottom: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}

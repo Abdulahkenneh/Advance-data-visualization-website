@@ -1,0 +1,63 @@
+{% extends 'blogs/base.html' %}
+{% block title %}{{request.user}} Profile| {% endblock %}
+
+{% block content %}
+<div class="container mt-5 w-60">
+    <div class="row justify-content-center col-12">
+        <div class="col-md-8">
+            <div class="card" style="width: 100%;">
+                <div class="card-header">
+                    <h1 class="mb-0">Profile</h1>
+                    {% if user.is_staff or user.is_superuser %}
+                    <a href="{% url 'blogs:add_topic' %}" class="btn btn-primary" style="position: absolute; top: 10px; right: 10px;">Add course topic</a>
+                    {% endif %}
+                </div>
+                <div class="card-body text-center">
+                    {% if user.profile.image %}
+                        <img src="{{ user.profile.image.url }}" alt="Profile Picture" class="profile-picture" style="width: 100px; height: 100px;">
+                    {% else %}
+                        <p class="text-muted">No profile picture available.</p>
+                    {% endif %}
+                    <p class="mt-3">Username: {{ user.username }}</p>
+                    <p>First Name: {{ user.profile.firstname }}</p>
+                    <p>Last Name: {{ user.profile.lastname }}</p>
+                    <h3>Upload Profile Picture</h3>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-success">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+     <h2 class="mb-4">My Achievements</h2>
+    <div class="row">
+        {% if achievements %}
+            {% for achievement in achievements %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ achievement.title }}</h5>
+                        <p class="card-text">{{ achievement.description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ achievement.date }}</small></p>
+                        {% if achievement.id %}
+                        <a href="{% url 'blogs:download_achievement' achievement.id %}" class="btn btn-primary">Download</a>
+                        <a href="{% url 'blogs:share_achievement' achievement.id %}" class="btn btn-secondary">Share</a>
+                        {% else %}
+                        <p class="text-danger">Invalid achievement ID</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <p>No achievements yet.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

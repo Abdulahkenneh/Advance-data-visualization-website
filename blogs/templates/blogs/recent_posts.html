@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recent Posts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .card-container {
+            scroll-snap-type: x mandatory;
+        }
+        .card-container .card {
+            scroll-snap-align: center;
+            transition: transform 0.3s;
+        }
+        .card-container .card:hover {
+            transform: scale(1.05);
+        }
+        .recent-posts {
+            margin-top: 20px;
+        }
+        .pagination .page-link {
+            color: #007bff;
+        }
+        .pagination .page-link:hover {
+            color: #0056b3;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        @media (max-width: 768px) {
+            .recent-posts .row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="recent-posts">
+        <h1>Recent Posts</h1>
+        <div class="card-container">
+            {% for post in page_obj %}
+                <div class="card">
+                    <h2>{{ post.title }}</h2>
+                    <p>{{ post.content|truncatewords:50 }}</p>
+                    <p><small>Posted on {{ post.created_at }}</small></p>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</body>
+</html>

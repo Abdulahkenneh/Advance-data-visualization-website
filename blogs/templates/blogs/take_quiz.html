@@ -1,0 +1,24 @@
+{% extends "blogs/base.html" %}
+{% load custom_filters %}
+{% load static %}
+{% block title %}Quiz for {{ course.title }} |{% endblock %}
+{% block content %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">Quiz for {{ course.title }}</h1>
+    <form method="post">
+        {% csrf_token %}
+          {% for form, question in forms|zip_lists:questions %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="card-title">{{ question.text }}</h5>
+            </div>
+            <div class="card-body">
+                {{ form.choice|as_bootstrap_radio }}
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+{% endblock %}

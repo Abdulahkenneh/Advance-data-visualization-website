@@ -1,0 +1,191 @@
+{% extends 'blogs/base.html' %}
+{% block title %}Blog Post | {% endblock %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+
+
+<div class="scroll-washer"></div>
+<main class="container-fluid mt-4 ">
+    <div class="row">
+        <aside class="col-md-3 mb-4">
+            <div class="card blog-left-side">
+                <div class="card-body">
+
+                    <h5 class="card-title">Topics</h5>
+                    <div id="topicsCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                        <div class="carousel-inner">
+                            {% for topic in topics %}
+                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                <a href="{% url 'blogs:topics' topic.id %}">{{ topic.title }}</a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+         <section class="col-md-6 mb-4 post-container ">
+            <div class="cards">
+                <div class="card-body">
+                    <a class="btn btn-primary mb-2" href="{% url 'blogs:entry' %}">Create Post</a>
+                    {% if post %}
+                    <p style="color:black"> {% if post.user.profile.image %}<img src="{{ post.user.profile.image.url }}" alt="Profile Picture" class="profile-picture" style="width: 50px; height: 50px;border-radius:50%">{% endif %}
+
+
+                        By {{post.user.user}} on {{ post.created_at|date:'M d, Y H:i' }}</p>
+                    <h1 class="post-title playfair-display-title" style="font-family:Roboto; sans-serif;
+  font-weight: 800;
+  Italic: 200px;
+  font-style: normal;margin-bottom:50px;
+}">{{ post.title }}</h1>
+                       {% if post.image %}
+                         <img src="{{ post.image.url }}" alt="{{post.title}}"  style="width: 100%; height: 400px">
+                        {% elif post.image == 'None' %}
+                        {% endif %}
+                    <article class="post-content" style="width:100%;overflow-x: scroll">
+                         {{ post.body|safe}}
+                    </article>
+                    {% else %}
+                    <h1 class="card-title post-title">Blog Post Title</h1>
+                    <article class="post-content">
+                        <p>Comming soon...</p>
+                    </article>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <aside class="col-md-3 mb-4">
+            <div class="card blog-left-side">
+                <div class="card-body">
+                    <h2 class="card-title">Courses</h2>
+                    <h5 class="card-title">Register today</h5>
+                    <ul>
+                        {% for course in courses %}
+                        <a class='' href="{% url 'blogs:motivation' course.id %}"><li>{{ course.title }}</li></a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div class="recent-posts">
+        <h2>Recent Posts</h2>
+        <div class="row">
+            {% for post in page_obj %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        {% if post.image %}
+                         <img src="{{ post.image.url }}" alt="{{post.title}}"  style="width: 100%; height: 100%">
+                        {% elif post.image == 'None' %}
+                        {% endif %}
+                        <p class="card-text">{{ post.summary }}</p>
+                        <a href="?post_id={{ post.id }}" class="post-link read-more-link" data-post-id="{{ post.id }}">Read more</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+ </main>
+
+
+
+{{ form.media }}
+
+
+ <div class="mycontainer mt-5">
+    <div class="card-body p-4  ">
+         {% if comments %}
+            <h4 class="mb-0">Recent comments</h4>
+            <p class="fw-light mb-4 pb-2">Latest Comments section by users</p>
+
+            <div class="d-flex flex-start mb-2" >
+                {% for comment in comments %}
+                {% if comment.user.is_authenticated %}
+                  {% if comment.user.profile.image %}
+                         <img src="{{ comment.user.profile.image.url }}" alt="{{comment.title}}"  style="width: 40px; height: 40px;border-radius:50%">
+                        {% elif post.image == 'None' %}
+                    <img src="{% static 'images/th.jpg' %}" alt="{{comment.title}}"  style="width: 40px; height: 40px;border-radius:50%">
+                      {% else %}
+                         <img src="{% static 'images/th.jpg' %}" alt="{{comment.title}}"  style="width: 40px; height: 40px;border-radius:50%">
+
+                        {% endif %}
+
+
+                   <div>
+                <h6 class="fw-bold mb-1">{{comment.user}}</h6>
+                <div class="d-flex align-items-center mb-3">
+                  <p class="mb-0">
+                   on {{ comment.date|date:'M d, Y H:i' }}
+                    <span class="badge bg-primary">Pending</span>
+                  </p>
+                  <a href="#!" class="link-muted"><i class="fas fa-pencil-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-redo-alt ms-2"></i></a>
+                  <a href="#!" class="link-muted"><i class="fas fa-heart ms-2"></i></a>
+                </div>
+                <p class="mb-2"  disabled>
+                 {{comment.message}}
+                </p>
+              </div>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+        {% else %}
+         <h2 style="text-align:center">Your comment is appreciated</h2>
+        {% endif %}
+          </div>
+
+
+    <div class="col-md-6">
+            <h2>How was my post ?</h2>
+            <form method="post" action="" style="">
+                {% csrf_token %}
+                <label for="name">
+                 {% render_field  form.title placeholder='Enter Title' class+='form-control' %}
+                </label>
+
+                 {% render_field  form.message placeholder='Comment' class+='form-control' %}
+
+                <button type="submit" name="contact_submit" class="btn btn-primary mt-2 mb-2">Submit</button>
+            </form>
+        </div>
+
+
+
+
+</div>
+
+
+
+{% endblock %}

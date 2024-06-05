@@ -1,0 +1,31 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container">
+        <h1 class="mt-4">My Courses</h1>
+        <div class="row mt-4 mb-4">
+            {% for course in courses %}
+
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><a class="nav-link" href="{% url 'blogs:register_course' course.id%}">{{ course.title }}</a></h5>
+                        <p class="card-text">{{ course.description }}</p>
+                        <p class="card-text"><small class="text-muted">Teacher: {{ course.user }}</small></p>
+                         <a class='button' href="{% url 'blogs:confirm' course.id %}" style='float:right'>Unregister</a>
+                    </div>
+                    <div class="card-footer">
+                        <small>Overall Progress: {{ course.overall_progress }}%</small>
+                    </div>
+
+                </div>
+            </div>
+            {% empty %}
+            <p class="col">No courses found.</p>
+
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

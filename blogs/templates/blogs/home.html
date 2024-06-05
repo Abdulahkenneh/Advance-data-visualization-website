@@ -1,0 +1,224 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+{% load static %}
+{% load widget_tweaks %}
+{% load custom_filters %}
+
+
+
+<div class="scroll-washer"></div>
+<main class="container-fluid ">
+    <div class="row ">
+        <!-- Left Sidebar -->
+        <!-- Title and Image Section -->
+            <div class="row gradient-background3" style="background: linear-gradient(to right, #ff9a9e, #fad0c4);height:auto;
+">
+                <div class="col-md-6  " >
+                    <h1 class="display-2" style="font-weight:bold;overflow-wrap: break-word" >Advanced Data Analysis Techniques Unveiled</h1>
+                    <h4 class="display-5" >Welcome to the ultimate resource for data analytics insights, strategies, and practical advice.</h4>
+                    <a href="{% url 'blogs:all_courses' %}" class="btn btn-primary mt-5 mb-5">learn more</a>
+                </div>
+                <div class="col-md-6 mt-3" >
+                        <img src="{% static  'images/Data-anaylist.webp' %}" class="img-fluid" alt="Data-anaylist" style="height:80%; width:100%">
+                 </div>
+            </div>
+
+    </div>
+
+
+
+
+    <!-- Store itmes  -->
+
+
+    {% if items %}
+    <div class="container-fluid mt-4">
+    <div class="row">
+        <!-- Items List -->
+        <div class="col-12">
+            <div class="row">
+                {% for item in items %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="card h-100">
+                        {% if item.image %}
+                        <img src="{{item.image.url}}" class="card-img-top" alt="{{ item.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                            <p class="card-text"><strong>${{ item.price }}</strong></p>
+                            <a href="" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if not items %}
+            <div class="col-12">
+                <p>No items found.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
+            <!-- Additional Section for Images -->
+
+            <div class="card" style="margin-top:2rem">
+                <div class="card-body">
+                    <h5 class="card-title">Courses</h5>
+                    <ul>
+                        {% for course in courses %}
+                        <a class='' href="{% url 'blogs:motivation' course.id %}">
+                            <li>{{ course.title }}</li>
+                        </a>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+
+        <section>
+                <div class="row mt-4">
+                    <div class="col-md-6 mt-4" style="height:50%">
+                       <img src="{% static  'images/data1.webp' %}" class="img-fluid" alt="Data-anaylist" style="height:80%; width:100%">
+                  </div>
+
+                 <div class="col-md-6 mt-4" style="height:50%">
+                     <img src="{% static  'images/data-science.webp' %}" class="img-fluid" alt="Data-anaylist" style="height:80%; width:100%">
+                </div>
+                </div>
+        </section>
+
+
+    <!-- Recent Posts Section -->
+    <div class="recent-posts mt-6">
+    <h2>Recent Posts</h2>
+    <div class="row">
+        {% for post in page_obj %}
+        <div class="col-12 col-md-6 mb-4">
+            <div class="card h-200" style='height:500px:overflow:hidde'>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.body.summary|safe }}</p>
+
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <a href="{% url 'blogs:post'  %}"><p>{{ post.body|safe|truncate_words:90 }}</p></a>
+                    </div>
+
+                </div>
+                  <div class="carousel-item">
+                 <a href="{% url 'blogs:post' %}" class="post-link read-more-link" data-post-id="{{ post.id }}" style="margin:2rem;color:red">Read more</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+        <!-- Pagination -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+<div class="row mb-4 mt-5 btn-primary p-3 " style="justify-content:center ">
+        <div class="col-md-6 ">
+            <h1 style="font-weight:bold">Empowering professionals in mastering digital analytics</h1>
+            <p>Welcome to Master the Digital Frontier, your go-to resource for all things data analytics. Our blog offers valuable insights, strategies, and practical advice to navigate the evolving landscape of data science. </p>
+            <a href="{% url 'blogs:post' %}" style="border-radius:15px;" class="btn btn-light mb-5">Learn More
+            </a>
+        </div>
+
+    <aside class="col-md-3 mb-4" >
+            <div class="card blog-left-side">
+                <div class="card-body ">
+                    <h1 class="card-title" style="color:black">Topics</h1>
+                    <div id="topicsCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                        <div class="carousel-inner">
+                            {% for top in topics %}
+                            {% if top.image %}
+
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <p style="color:black">{{ top.title }}</p>
+                                    <a href="{% url 'blogs:topics' top.id %}"><img  src="{{ top.image.url }}" alt="{{top.tile}}" class="topic-picture" style="width: 80%; height:200px" ></a>
+                                    <a href="{% url 'blogs:topics' top.id %}" class="btn btn-primary">Learn Now </a>
+                                </div>
+                            {% elif top.image == 'None' %}
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+</div>
+
+
+
+
+
+
+
+
+<div class="container " >
+    <!-- Contact Form -->
+    <div class="row mb-4 mt-5" style="justify-content:center">
+        <div class="col-md-6">
+            <h1 style="font-weight:bold">Contact Us for Data Analytics Solutions</h1>
+            <p>Have a question or need assistance with your data analytics journey? Feel free to reach out to us. We are here to help you master the digital frontier.
+            </p>
+            <h4>Get in Touch</h4>
+            <p>+49-017-669-258-588</p>
+            <h4>Email</h4>
+            <p>abulayeekennedy@code-with-kenneh.com</p>
+
+
+        </div>
+
+        <div class="col-md-6">
+            <h2>Contact Us</h2>
+            <form method="post" action="" style="">
+                {% csrf_token %}
+                <label for="name">
+                 {% render_field  contact_form.name placeholder='Enter name' class+='form-control' %}
+                </label>
+
+                 {% render_field  contact_form.email placeholder='Enter Email' class+='form-control' %}
+                 {% render_field  contact_form.message placeholder='Comment' class+='form-control' %}
+
+                <button type="submit" name="contact_submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+        </div>
+
+
+    <!-- Comment Form -->
+
+    </div>
+
+    <!-- Subscribe Form -->
+
+</div>
+
+{% endblock %}

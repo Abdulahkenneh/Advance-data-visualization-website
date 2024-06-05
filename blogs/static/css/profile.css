@@ -1,0 +1,19 @@
+/* your_app/static/your_app/style.css */
+.profile-card {
+    margin-bottom: 20px;
+}
+
+.profile-card img {
+    border-radius: 50%;
+    max-width: 150px;
+    margin: 20px auto;
+}
+
+.profile-card-title {
+    margin-top: 10px;
+}
+
+.profile-card-btn {
+    background-color: #007bff;
+    border-color: #007bff;
+}

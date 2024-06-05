@@ -1,0 +1,38 @@
+{% extends 'blogs/base.html' %}
+{% block title %}Bravo! {{request.user}}| {% endblock %}
+
+{% load static %}
+{% block content %}
+ <div class="container mt-5">
+       <h1 class="text-primary mb-5"><strong>{{course.title}}</strong></h1>
+       <form method="post" class="form-group mb-5" action="{% url 'blogs:register_course' course.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+        <h1 class="text-primary"><strong>Hi {{request.user}}</h1></strong> <h3>Your choice for {{ course.title }} will not be a waist.Here is why</h3>
+        <h2 class="text-success mb-5"> You Won't Regret Joining Our Course:</h2>
+        <h2 class="mt-4">Unlock Your Potential with Our Comprehensive Program</h2>
+        <p class="mt-3">Are you ready to take your skills to the next level? By registering for our course, you're making a commitment to your personal and professional growth. Our carefully designed curriculum is tailored to provide you with the knowledge, skills, and confidence you need to succeed in your chosen field.</p>
+
+        <h2 class="mt-5">Benefits of Our Course</h2>
+        <ul class="list-unstyled mt-3">
+            <li class="mb-2"><strong>Expert Instructors:</strong> Learn from industry leaders who bring real-world experience and insights to the classroom.</li>
+            <li class="mb-2"><strong>Hands-On Learning:</strong> Engage in practical exercises and projects that reinforce theoretical knowledge.</li>
+            <li class="mb-2"><strong>Flexible Schedule:</strong> Our course is designed to fit into your busy life, with options for online and offline learning.</li>
+            <li class="mb-2"><strong>Community Support:</strong> Join a network of like-minded individuals who are all striving towards similar goals.</li>
+            <li class="mb-2"><strong>Career Advancement:</strong> Gain the skills that employers are looking for and increase your job opportunities.</li>
+        </ul>
+
+        <h2 class="mt-5">We're Here for You</h2>
+        <p class="mt-3">We understand that the learning journey can sometimes be challenging. That's why our team is always available to assist you whenever you need help. Whether you're stuck on a particular topic or need guidance on your project, we're just a message away.</p>
+
+         <form method="post" action="{% url 'blogs:register_course' course.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+         <p class="mt-3">Don't miss this opportunity to invest in yourself. Register for our course today and start your journey towards a brighter future. Remember, the only regret you'll have is not starting sooner.</p>
+    </div>
+
+{% endblock %}
