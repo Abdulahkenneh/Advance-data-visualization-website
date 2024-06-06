@@ -171,20 +171,53 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 LOGING_URL ='/login/'
 
+
+
 SUMMERNOTE_CONFIG = {
-
     'summernote': {
-        'min-width': '100',
+        'width': '100%',
         'height': '720',
-
         'codemirror': {
             'mode': 'htmlmixed',
             'lineNumbers': 'true',
-            'lineWrapping':'true'
-            
-        }
+            'lineWrapping': 'true',
+            'thame':'monokai',
+        },
+        'css': (
+            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css',
+            'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
+            # Inline custom CSS
+            'data:text/css;charset=utf-8,' + (
+                'body .note-editable { '
+                'width: 100%; '
+                'overflow-x: auto; '
+                'background: #f8f9fa; '
+                'border: 1px solid #ced4da; '
+                'border-radius: .25rem; '
+                'padding: 1rem; '
+                '} '
+                '.CodeMirror { '
+                'width: 100% !important; '
+                'border: 1px solid #ced4da; '
+                'border-radius: .25rem; '
+                '} '
+                'pre, code { '
+                'background: #f8f9fa; '
+                'border: 1px solid #ced4da; '
+                'border-radius: .25rem; '
+                'padding: .5rem; '
+                'overflow-x: auto; '
+                'display: block; '
+                'white-space: pre-wrap; '
+                'word-wrap: break-word; '
+                '}'
+            )
+        ),
     }
 }
+
+
+
 
 #APPEND_SLASH = False
 
