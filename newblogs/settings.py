@@ -105,6 +105,8 @@ DATABASES = {
     }
 }
 
+db_rom_env = dj_database_url.config('conn_max_age=600')
+DATABASES['default'].update(db_rom_env)
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -172,17 +174,20 @@ LOGING_URL ='/login/'
 SUMMERNOTE_CONFIG = {
 
     'summernote': {
-        'width': '100%',
+        'min-width': '100',
         'height': '720',
 
         'codemirror': {
             'mode': 'htmlmixed',
             'lineNumbers': 'true',
+            'lineWrapping':'true'
+            
         }
     }
 }
 
 #APPEND_SLASH = False
+
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
