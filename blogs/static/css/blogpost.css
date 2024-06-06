@@ -1,6 +1,9 @@
-.post-container {
-box-shadow:0 25px 50px rgba(0,0,0,0.8)
-}
+/*.post-container {
+box-shadow:0 25px 50px rgba(0,0,0,0.8);
+overflow-x: auto;
+
+}*/
+
 
 .blog-left-side{
     grid-area: left;
@@ -8,7 +11,7 @@ box-shadow:0 25px 50px rgba(0,0,0,0.8)
     position: sticky;
     top:0;
     height: auto;
-    bacgkground-color:rgba(0, 153, 255, 0.947);
+
 }
 
 .scroll-washer{

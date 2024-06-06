@@ -10,65 +10,53 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/blogpost.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom_summernote.css' %}">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Maven+Pro:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rakkas&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <!--summernote -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous">
 
+    
+    <link rel="stylesheet" href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous">
+    <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css' integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" integrity="sha256-IKhQVXDfwbVELwiR0ke6dX+pJt0RSmWky3WB2pNx9Hg=" crossorigin="anonymous">
+ 
 
 </head>
+
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">      
-        <a class="navbar-brand" href="{% url 'blogs:home' %}" style="margin-left:5px;box-shadow:0 25px 50px rgba(0,0,0,0.8);padding:10px">Code with Kenneh</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+
+         
+            <img class="navbar-brand" src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=162,fit=crop,q=95/ALpJWvNxnySywjPg/20240522_022637-mP4pW7zrB0TWjR6K.png" alt="mastering data science log" style="margin-left:5px;box-shadow:0 25px 50px rgba(0,0,0,0.8);padding:10pxl; border-radius:50% ; width:4rem;height:4rem;">
+           
+            <button class="navbar-toggler btn-light fixed-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> 
+        <div class="collapse navbar-collapse justify-content-center " id="navbarNav"> <!-- Added justify-content-center class -->
+            <ul class="navbar-nav text-center mt-4"> <!-- Added text-center class for small devices -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'blogs:post' %}">Blog</a>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'blogs:all_courses' %}">Courses</a>
                 </li>
-
-                <li>
-                     {% if request.user.is_authenticated %}
-                  <a class="btn btn-primary" href="{% url 'blogs:logout' %}" style="height:">Logout </a>
-
-                </li>
-                <li>
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                        <a class="btn btn-primary" href="{% url 'blogs:logout' %}">Logout</a>
                     {% else %}
-                  <a class="btn btn-success" href="{% url 'blogs:login' %}">Login </a>
-                {% endif %}
+                        <a class="btn btn-success mb-4" href="{% url 'blogs:login' %}">Login</a>
+                    {% endif %}
                 </li>
+                
             </ul>
+            
         </div>
-
-
-
-
-
-            <div class="btn-group" style="margin-right:50px">
-                  <button type="button" class="btn  dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      {% if request.user.is_authenticated %}
-                      {% if request.user.profile.image %}
-                     <img src="{{ request.user.profile.image.url }}" alt="{{post.title}}"  style="width: 35px; height: 35px;border-radius:50%">    {% else %}
-                       <p style="color:white">{{request.user}}</p>
-                      {% endif %}
-                      {% else %}
-                      {% endif %}
-
-                  </button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'blogs:profile' %}">profile </a>
-                    <a class="dropdown-item" href="#">Achievements</a>
-                    <div class="dropdown-divider"></div>
-                  </div>
-                </div>
-         <button class="navbar-toggler btn-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon" ></span>
-        </button>
-
     </nav>
+   
+    
         {% block content %}{% endblock %}
 
 
@@ -134,6 +122,9 @@
         hljs.highlightAll();
     });
 </script>
+
+
+    
 </body>
 
 

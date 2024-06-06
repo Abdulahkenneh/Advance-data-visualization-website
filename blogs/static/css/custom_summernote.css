@@ -1,0 +1,14 @@
+pre {
+    white-space: pre-wrap; /* Wrap long lines */
+    word-wrap: break-word; /* Break words to prevent overflow */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    width: auto;
+    background-color:black; /* Ensure it fits within the container */
+}
+
+/* Prevent image overflow */
+img {
+    max-width: 100%; /* Scale images to fit within their container */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure images are block elements */
+}
