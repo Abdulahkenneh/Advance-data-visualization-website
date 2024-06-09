@@ -1,0 +1,11 @@
+.codehilite {
+    background-color:black; /* Background Color */
+    color:black; /* Tebxt Color */
+}
+.codehilite .c { color: #6a737d; } /* Comment Color */
+.codehilite .k { color: #0074d9; } /* Keyword Color */
+.codehilite .s { color: #2ca02c; } /* String Color */
+.codehilite .m { color: #d62728; } /* Number Color */
+
+
+

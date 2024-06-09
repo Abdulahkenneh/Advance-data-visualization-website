@@ -12,7 +12,9 @@ sitemaps = {
 urlpatterns = [
     path('liberia/', admin.site.urls),
     path("",include('blogs.urls',namespace='blogs')),
-    path('summernote/', include('django_summernote.urls')),
+  #  path('summernote/', include('django_summernote.urls')),
+   # path('tinymce/', include('tinymce.urls')),
+    path('markitup/', include('markitup.urls')),
 
 ]
 

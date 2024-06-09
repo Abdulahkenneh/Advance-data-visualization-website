@@ -1,4 +1,5 @@
 # your_app/forms.py
+from markitup.widgets import MarkItUpWidget
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -10,8 +11,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.validators import validate_email
 from django.contrib.auth import authenticate
-from ckeditor.widgets import CKEditorWidget
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+
+#from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class LoginForm(AuthenticationForm):
@@ -118,21 +119,18 @@ class CourseTopicForm(forms.ModelForm):
     class Meta:
         model = CourseTopic
         fields = ['title', 'body', 'image','course']
-        widgets = {
-            'body': SummernoteWidget(),
-
-        }
+     
+      
 
 
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'body', 'image',]
+        fields = ['title', 'body', 'thumbnail']
         widgets = {
-            'body': SummernoteWidget(),
+            'body': MarkItUpWidget(attrs={'cols': 80, 'rows': 30}),
         }
-
 
 
 
@@ -140,6 +138,7 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactUs
         fields = ['name','email','message']
+        
 
 
 class SubcribeForm(forms.ModelForm):

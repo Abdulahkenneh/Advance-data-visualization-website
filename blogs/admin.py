@@ -1,6 +1,7 @@
 # your_app/admin.py
 from django.db import models
 from tinymce.widgets import TinyMCE
+from markitup.widgets import MarkItUpWidget
 from django.contrib import admin
 from .models import (Profile, Course,
                      Post, CourseTopic,Achievement,
@@ -8,7 +9,8 @@ from .models import (Profile, Course,
                      UserAnswer,Choice,Comment,ContactUs,Subcribe
                      ,NewSubscribers,Items)
 
-from django_summernote.admin import SummernoteModelAdmin
+#from django_summernote.admin import SummernoteModelAdmin
+
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -22,27 +24,26 @@ class NewSubcribersAdmin(admin.ModelAdmin):
 class CourseAdmin(admin.ModelAdmin):
     list_display = ['title', 'user']
 
-@admin.register(Post)
-class PostAdmin(SummernoteModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_at']
-    summernote_fields = ('body',)
+    formfield_overrides = {
+        models.TextField: {'widget': MarkItUpWidget(attrs={'cols': 80, 'rows': 30})},
+    }
 
+admin.site.register(Post, PostAdmin)
 
 @admin.register(Items)
 class ItemsAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.TextField: {'widget': TinyMCE()},}
     list_display = ['owner','title', 'price','discription']
+    
 
 
-
-
-class CourseTopicAdmin(SummernoteModelAdmin):
-    # formfield_overrides = {
-    #     models.TextField: {'widget': TinyMCE()},
-    #
-    # }
-    list_display = [ 'title']
-    summernote_fields = ('body',)
+class CourseTopicAdmin(admin.ModelAdmin):
+    list_display = [ 'title','body']
 admin.site.register(CourseTopic, CourseTopicAdmin)
+
 
 @admin.register(Achievement)
 class AchievementAdmin(admin.ModelAdmin):
@@ -51,7 +52,6 @@ class AchievementAdmin(admin.ModelAdmin):
 @admin.register(UserCourseTopicProgress)
 class UserCourseTopicAdmin(admin.ModelAdmin):
     list_display = ['progress', 'user']
-
 
 
 @admin.register(Question)
@@ -66,8 +66,6 @@ class ChoiceAdmin(admin.ModelAdmin):
 @admin.register(UserAnswer)
 class UserCourseTopicAdmin(admin.ModelAdmin):
     list_display = ['question', 'user','choice']
-
-
 
 
 @admin.register(ContactUs)

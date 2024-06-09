@@ -1,0 +1,38 @@
+
+
+.blog-left-side{
+    grid-area: left;
+    align-self: start;
+    position: sticky;
+    top:0;
+    height: auto;
+
+}
+
+.scroll-washer{
+background-color:lightblue;
+height:10px;
+width:100vw;
+animation:scroll-washer linear;
+animation-timeline:scroll();
+z-index:1000;
+position:fixed;
+top:0;
+scale:0 1;
+transform-origin:left
+}
+
+@keyframes scroll-washer{
+ to{scale:1}
+}
+
+
+
+.codehilite {
+    background-color:black; /* Background Color */
+    color: white; /* Text Color */
+}
+.codehilite .c { color: #6a737d; } /* Comment Color */
+.codehilite .k { color: #0074d9; } /* Keyword Color */
+.codehilite .s { color: #2ca02c; } /* String Color */
+.codehilite .m { color: #d62728; } /* Number Color */

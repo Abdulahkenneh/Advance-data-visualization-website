@@ -4,7 +4,7 @@
 {% block content %}
 
 {{ form.media }}
-
+<h3>To display your code in the code block please insect your code betwen this tag <span = class='color:blue;font-wight:bold'><pre></code class ='hljs python'>Your code here!</code></pre>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -13,11 +13,11 @@
                     <h2>What do you have on mind?</h2>
                 </div>
                 <div class="card-body">
-                    <form action="{% url 'blogs:entry' %}" method="post" enctype="multipart/form-data">
+                    <form action="{% url 'blogs:entry' %}" method="post" enctype="multipart/form-data" id="editorjs">
                         {% csrf_token %}
                         <div class="form-group">
-                            <label for="title">Title</label>
-                            {{ form.title|add_class:"form-control" }}
+                            <div id="editorjs"></div>
+                            {{ form.title.label_tag }}   {{ form.title|add_class:"form-control" }}
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>
@@ -34,5 +34,40 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editor = new EditorJS({
+            holder: 'editorjs',
+            onChange: function() {
+                editor.save().then((outputData) => {
+                    document.getElementById('id_content').value = JSON.stringify(outputData);
+                }).catch((error) => {
+                    console.log('Saving failed: ', error);
+                });
+            },
+            tools: {
+                header: {
+                    class: Header,
+                    inlineToolbar: ['link']
+                },
+                list: {
+                    class: List,
+                    inlineToolbar: true
+                },
+                image: {
+                    class: ImageTool,
+                    config: {
+                        endpoints: {
+                            byFile: '/your-endpoint-to-upload-image/', // Your backend file uploader endpoint
+                            byUrl: '/your-endpoint-to-upload-by-url/'  // Your endpoint that provides uploading by url
+                        }
+                    }
+                },
+            }
+        });
+    });
+</script>
 
 {% endblock %}

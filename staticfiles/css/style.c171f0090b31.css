@@ -1,0 +1,153 @@
+/* static/blogs/style.css */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Maven+Pro:wght@400..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Rakkas&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    background-color:#eeeef3;
+}
+
+/* style of the card with hover effect*/
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* your_app/static/your_app/style.css */
+
+
+
+.form-control{
+    margin-bottom:10px !important;
+}
+.nav-link{
+color: black !important;
+font-weight: bold;
+}
+
+.profile-logo{
+width:35px;
+height:35px;
+float:right;
+padding-right:100px;
+border-radius:50%;
+
+}
+
+
+@media screen and (min-width:800px){
+ .navbar-nav{
+  text-align:center !important;
+  justify-content:center !important;
+ }
+ 
+}
+.list-group-item {
+    margin-bottom: 10px;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+
+
+/* Richtext form styling */
+
+/* styles.css */
+
+.form-label {
+    font-weight: bold;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.container.mt-5 {
+    margin-top: 3rem;
+}
+
+
+/*card style*/
+
+.post-card {
+    border: none; /* Remove card border */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Clip child elements */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    height:50%;
+
+}
+
+.post-card-title {
+    font-weight: bold; /* Bold title */
+}
+
+.post-card-text {
+    color: #555; /* Grey text */
+}
+
+.post-post-link {
+    color: #007bff; /* Link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.post-link:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+
+
+@keyframes gradientAnimation3 {
+    0% {
+        background: linear-gradient(to right, #ff9a9e, #fad0c4, #ff9a9e);
+    }
+    50% {
+        background: linear-gradient(to right, #fad0c4, #ff9a9e, #fad0c4);
+    }
+    100% {
+        background: linear-gradient(to right, #ff9a9e, #fad0c4, #ff9a9e);
+    }
+}
+
+.gradient-background3 {
+    animation: gradientAnimation3 5s linear infinite;
+    background-size: 400% 400%;
+    height: 100vh;
+    width: 100vw;
+}
+
+
+
+/* comment form styling */
+
+
+/*.cke_editable pre {
+    background: #2d2d2d !important;
+    color: #f8f8f2 !important;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.cke_editable code {
+    background: #2d2d2d !important;
+    color: #f8f8f2 !important;
+    padding: 2px 4px;
+    border-radius: 3px;
+}*/
+
+

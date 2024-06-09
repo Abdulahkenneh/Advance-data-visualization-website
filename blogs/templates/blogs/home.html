@@ -12,18 +12,18 @@
     <div class="row ">
         <!-- Left Sidebar -->
         <!-- Title and Image Section -->
-        <div class="row gradient-background3" style="background: linear-gradient(to right, #ff9a9e, #fad0c4);height:auto;">
-            <div class="col-md-6 mt-5">
-                <h1 class="display-4" style="font-size: 8vw;font-weight:bold;text-align:center">Advanced Data Analysis Techniques Unveiled</h1>
-                <h4 class="display-5 text-center">Welcome to the ultimate resource for data analytics insights, strategies, and practical advice.</h4>
-                <div class="text-center">
-                    <a href="{% url 'blogs:all_courses' %}" class="btn btn-primary mt-5 mb-5">Learn More</a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <img src="{% static 'images/Data-anaylist.webp' %}" class="img-fluid" alt="Data Analyst" style="max-width: 100%; height: auto;">
-            </div>
+           <div class="row gradient-background3" style="background: linear-gradient(to right, #ff9a9e, #fad0c4);height:auto;width:100vw">
+    <div class="col-md-6 mt-5">
+        <h1 class="display-4" style="font-size: 8vw;font-weight:bold;text-align:center">Advanced Data Analysis Techniques Unveiled</h1>
+        <h4 class="display-5 text-center">Welcome to the ultimate resource for data analytics insights, strategies, and practical advice.</h4>
+        <div class="text-center">
+            <a href="{% url 'blogs:all_courses' %}" class="btn btn-primary mt-5 mb-5">Learn More</a>
         </div>
+    </div>
+    <div class="col-md-6">
+        <img src="{% static 'images/Data-anaylist.webp' %}" class="img-fluid" alt="Data Analyst" style="max-width: 100%; height: auto;">
+    </div>
+</div>
 
     </div>
 
@@ -105,13 +105,13 @@
                     <p class="card-text">{{ post.body.summary|safe }}</p>
 
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <a href="{% url 'blogs:post'  %}"><p>{{ post.body|safe|truncate_words:90 }}</p></a>
+                        <p>{{ post.body|safe|truncate_words:90 }}</p>
                     </div>
+                    
 
                 </div>
-                  <div class="carousel-item">
                  <a href="{% url 'blogs:post' %}" class="post-link read-more-link" data-post-id="{{ post.id }}" style="margin:2rem;color:red">Read more</a>
-                </div>
+               
             </div>
         </div>
         {% endfor %}
@@ -152,6 +152,7 @@
             </a>
         </div>
 
+
     <aside class="col-md-3 mb-4" >
             <div class="card blog-left-side">
                 <div class="card-body ">
@@ -159,8 +160,8 @@
                     <div id="topicsCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
                         <div class="carousel-inner">
                             {% for top in topics %}
-                            {% if top.image %}
 
+                            {% if top.image %}
                                 <div class="carousel-item {% if forloop.first %}active{% endif %}">
                                     <p style="color:black">{{ top.title }}</p>
                                     <a href="{% url 'blogs:topics' top.id %}"><img  src="{{ top.image.url }}" alt="{{top.tile}}" class="topic-picture" style="width: 80%; height:200px" ></a>

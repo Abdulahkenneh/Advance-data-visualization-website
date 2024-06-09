@@ -3,9 +3,20 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block content %}
+{% load highlight %}
+{{ form.media }}
+<style>
+    {{ pygments_css|safe }}
+</style>
+{% block extral %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock extral %}
+
+
 
 <div class="scroll-washer"></div>
-
     <div class="row">
         <aside class="col-md-3 mb-4">
             <div class="card blog-left-side">
@@ -23,27 +34,33 @@
                 </div>
             </div>
         </aside>
-        
-      
-        <div class="card">
+
+    <div class="card col-md-9" style=''>
             <div class="card-body">
                 <a class="btn btn-primary mb-2" href="{% url 'blogs:entry' %}">Create Post</a>
                 {% if post %}
                     <p style="color:black">
                         {% if post.user.profile.image %}
                             <img src="{{ post.user.profile.image.url }}" alt="Profile Picture" class="profile-picture" style="width: 50px; height: 50px; border-radius:50%">
-                        {% endif %}
-                        By {{ post.user.user }} on {{ post.created_at|date:'M d, Y H:i' }}
-                    </p>
-                    <h1 class="post-title playfair-display-title" style="font-family:Roboto; font-weight: 800; font-style: normal; margin-bottom:50px;">
-                        {{ post.title }}
-                    </h1>
+                        {% else %}
+                        <img src="{% static 'images/th.jpg' %}" alt="{{ comment.title }}" style="width: 40px; height: 40px; border-radius: 50%;">
+               
+                       {% endif %}
+                            Last updated - by {{ post.user }} on {{ post.created_at|date:'M d, Y H:i' }}
+                        </p>
+                        <h1 class="post-title playfair-display-title" style="font-family:Roboto; font-weight: 800; font-style: normal; margin-bottom:50px;">
+                            {{ post.title }}
+                        </h1>
                     {% if post.image %}
                         <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 100%; height: 400px;">
-                    {% endif %}
-                    <article class="post-content" style="overflow-x: auto; width: 100%;">
-                         {{ post.body|safe }}
+                   
+                    
+                    
+                        {% endif %}
+                    <article class="codehilite" >
+                         {{ post.body|syntax_highlight|safe }}
                     </article>
+
                 {% else %}
                     <h1 class="card-title post-title">Blog Post Title</h1>
                     <article class="post-content">
@@ -95,11 +112,7 @@
     </div>
 
 
-<article style=" overflow-x: auto;'width:100%'">
-    {{ post.body|safe }}
-</article>
 
-{{ form.media }}
 
 <div class="container mt-5">
     <div class="card-body p-4">
@@ -153,12 +166,14 @@
                 <button type="submit" name="contact_submit" class="btn btn-primary mt-2 mb-2">Submit</button>
             </form>
         </div>
-
-
-
-
 </div>
 
+
+<style>
+    {{ css_string|safe }}
+</style>
+
+<!-- Other head elements -->
 
 
 {% endblock %}

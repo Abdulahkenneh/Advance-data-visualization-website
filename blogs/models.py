@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 import uuid
+from tinymce import models as tinymce_models
+from tinymce.models import HTMLField
 
 
 
@@ -38,11 +40,11 @@ class Post(models.Model):
     body = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(unique=True, blank=True)
-    image = models.ImageField(upload_to='images', blank=True)
+    thumbnail = models.ImageField(upload_to='images', blank=True)
 
     def get_absolute_url(self):
         return reverse('blogs:post')
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             base_slug = slugify(self.title)
@@ -54,10 +56,9 @@ class Post(models.Model):
             self.slug = unique_slug
         super().save(*args, **kwargs)
 
-
 class CourseTopic(models.Model):
     title = models.CharField(max_length=200)
-    body = models.TextField(blank=True,null=True)
+    body = HTMLField(blank=True, null=True)
     image = models.ImageField(upload_to='images', height_field=None, width_field=None, blank=True)
     progress = models.IntegerField(default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -106,6 +107,7 @@ class UserCourseTopicProgress(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.topic.title}"
+    
 
 
 class Question(models.Model):
@@ -141,9 +143,6 @@ class ContactUs(models.Model):
 
     def __str__(self):
         return f'{self.name} send you {self.message} on {self.date}'
-
-
-
 
 
 class Subcribe(models.Model):

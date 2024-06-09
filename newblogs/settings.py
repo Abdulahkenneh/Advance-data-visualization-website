@@ -19,6 +19,7 @@ from google.cloud import storage
 from google.oauth2 import service_account
 from base64 import b64decode
 from decouple import config
+import comments
 
 load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,13 +38,13 @@ DEBUG =config('DEBUG') =='True'
 
 # Application definition
 # GOOGLE CLOUD STORAGE SETTING
-DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.path.join(BASE_DIR, 'demon/demon.json')
-)
+# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+# GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+#     os.path.join(BASE_DIR, 'demon/demon.json')
+# )
 
-MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+# MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 
 
 SITE_ID = 1
@@ -59,7 +60,13 @@ INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.sitemaps',
     'django.contrib.sites',
-    'django_summernote'
+   # 'django_summernote'
+    'tinymce',
+    'markitup',
+    'mptt',
+    'comments',
+    'markdownx',
+    
 
 
 ]
@@ -105,8 +112,8 @@ DATABASES = {
     }
 }
 
-db_rom_env = dj_database_url.config('conn_max_age=600')
-DATABASES['default'].update(db_rom_env)
+# db_rom_env = dj_database_url.config('conn_max_age=600')
+# DATABASES['default'].update(db_rom_env)
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -139,7 +146,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-#MEDIA_URL ='media'
+
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -147,6 +154,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 
 ]
+MEDIA_URL ='media/'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -173,50 +181,93 @@ LOGING_URL ='/login/'
 
 
 
-SUMMERNOTE_CONFIG = {
-    'summernote': {
-        'width': '100%',
-        'height': '720',
-        'codemirror': {
-            'mode': 'htmlmixed',
-            'lineNumbers': 'true',
-            'lineWrapping': 'true',
-            'thame':'monokai',
-        },
-        'css': (
-            'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css',
-            'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
-            # Inline custom CSS
-            'data:text/css;charset=utf-8,' + (
-                'body .note-editable { '
-                'width: 100%; '
-                'overflow-x: auto; '
-                'background: #f8f9fa; '
-                'border: 1px solid #ced4da; '
-                'border-radius: .25rem; '
-                'padding: 1rem; '
-                '} '
-                '.CodeMirror { '
-                'width: 100% !important; '
-                'border: 1px solid #ced4da; '
-                'border-radius: .25rem; '
-                '} '
-                'pre, code { '
-                'background: #f8f9fa; '
-                'border: 1px solid #ced4da; '
-                'border-radius: .25rem; '
-                'padding: .5rem; '
-                'overflow-x: auto; '
-                'display: block; '
-                'white-space: pre-wrap; '
-                'word-wrap: break-word; '
-                '}'
-            )
-        ),
-    }
+# SUMMERNOTE_CONFIG = {
+#     'summernote': {
+#         'width': '100%',
+#         'height': '450',
+#         'codemirror': {
+#             'mode': 'htmlmixed',
+#             'lineNumbers': 'true',
+#             'lineWrapping': 'true',
+#             'thame':'monokai',
+#         },
+#         'css': (
+#             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css',
+#             'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
+#             # Inline custom CSS
+#             'data:text/css;charset=utf-8,' + (
+#                 'body .note-editable { '
+#                 'width: 100%; '
+#                 'overflow-x: auto; '
+#                 'background: #f8f9fa; '
+#                 'border: 1px solid #ced4da; '
+#                 'border-radius: .25rem; '
+#                 'padding: 1rem; '
+#                 '} '
+#                 '.CodeMirror { '
+#                 'width: 100% !important; '
+#                 'border: 1px solid #ced4da; '
+#                 'border-radius: .25rem; '
+#                 '} '
+#                 'pre, code { '
+#                 'background: white; '
+#                 'border: 1px solid #ced4da; '
+#                 'border-radius: .25rem; '
+#                 'padding: .5rem; '
+#                 'overflow-x: 1000%; '
+#                 'display: block; '
+#                 'white-space: pre-wrap; '
+#                 'word-wrap: break-word; '
+#                 '}'
+#             )
+#         ),
+#     }
+# }
+
+# #TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/pncgjiu1hd1pajsiie6xtro3xmi6az2ctrdtvhhdvz4892nx/tinymce/6/tinymce.min.js";
+# TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/pncgjiu1hd1pajsiie6xtro3xmi6az2ctrdtvhhdvz4892nx/tinymce/7/tinymce.min.js'
+# TINYMCE_COMPRESSOR = False
+# TINYMCE_DEFAULT_CONFIG = {
+#     'height': 360,
+#     'width': 1000,
+#     'cleanup_on_startup': True,
+#     'custom_undo_redo_levels': 20,
+#     'selector': 'textarea',
+#     'theme': 'modern',
+#     'plugins': '''
+#         textcolor save link image media preview codesample contextmenu
+#         table code lists fullscreen  insertdatetime  nonbreaking
+#         contextmenu directionality searchreplace wordcount visualblocks
+#         visualchars code fullscreen autolink lists  charmap print  hr
+#         anchor pagebreak
+#         ''',
+#     'toolbar1': '''
+#         fullscreen preview bold italic underline | fontselect,
+#         fontsizeselect  | forecolor backcolor | alignleft alignright |
+#         aligncenter alignjustify | indent outdent | bullist numlist table |
+#         | link image media | codesample |
+#         ''',
+#     'toolbar2': '''
+#         visualblocks visualchars |
+#         charmap hr pagebreak nonbreaking anchor |  code |
+#         ''',
+#     'contextmenu': 'formats | link image',
+#     'menubar': True,
+#     'statusbar': True,
+# }
+
+
+
+MARKITUP_FILTER = ('markdown.markdown', {'safe_mode':'escape'})
+MARKITUP_SET = 'markitup/sets/markdown'
+MARKITUP_SKIN = 'markitup/skins/simple'
+
+MARKDOWN_EXTRA = {
+    'code-friendly': True,  # Enable code-friendly mode
+    'html-in-title': True,  # Allow HTML in titles
+    'tags': ['fenced-code-blocks'],  # Enable fenced code blocks
+    'css': '.codehilite { background-color: #333333; color: #333333; }',  # Custom CSS for code blocks
 }
-
-
 
 
 #APPEND_SLASH = False

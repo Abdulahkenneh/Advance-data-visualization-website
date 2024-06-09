@@ -1,4 +1,10 @@
 {% extends 'blogs/base.html' %}
+<style>
+    {{ pygments_css|safe }}
+</style>
+
+{% load highlight %}
+
 
 {% block content %}
 <div class="container-fluid mt-4">
@@ -41,12 +47,17 @@
                 <div class="card-body">
                     {% if topic %}
                         <h1 class="card-title" style="font-family:Roboto; sans-serif;
-                             font-weight: 800;
-                           
-  font-style: normal;margin-bottom:50px;">{{ topic.title }}</h1>
+                             font-weight: 800;              
+                        font-style: normal;margin-bottom:50px;">{{ topic.title }}</h1>
                         <article>
                             <p class="post-content" style="width:100%;overflow-x: scroll">{{ topic.body|safe }}</p>
                         </article>
+
+                        <article class="codehilite" >
+                            {{ topic.body|syntax_highlight|safe }}
+                       </article>
+                    
+                        
                     {% else %}
                         <h1 class="card-title">Select a topic</h1>
                         <p>Please select a topic from the list on the left to view its details.</p>
@@ -56,4 +67,11 @@
         </section>
     </div>
 </div>
+
+
+{% block extral %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock extral %}
 {% endblock %}
