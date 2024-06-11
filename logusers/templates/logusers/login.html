@@ -17,7 +17,7 @@
                 {{ form.password|add_class:"form-control" }}
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            or <a href="{% url 'blogs:register' %}">-->Register</a>
+            or <a href="{% url 'logusers:register' %}">-->Register</a>
             <div class="mb-5"></div>
             {% if form.non_field_errors %}
                 <div class="alert alert-danger mt-3" role="alert">

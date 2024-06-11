@@ -144,11 +144,6 @@ pre {
     overflow: auto;             /* Enable horizontal scrolling */
 }
 
-code {
-    font-family: 'Courier New', Courier, monospace;  /* Monospace font */
-    color: #333;                /* Dark gray text color */
-}
-
 pre code {
-    display: block;  /* Ensure code block takes the full width */
+    display: block; /* Ensure code block takes the full width */
 }

@@ -58,7 +58,7 @@ class Post(models.Model):
 
 class CourseTopic(models.Model):
     title = models.CharField(max_length=200)
-    body = HTMLField(blank=True, null=True)
+    body = models.TextField(blank=True, null=True)
     image = models.ImageField(upload_to='images', height_field=None, width_field=None, blank=True)
     progress = models.IntegerField(default=0)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -79,6 +79,14 @@ class Profile(models.Model):
     image = models.ImageField(upload_to='images', height_field=None, width_field=None, blank=True)
     bio = models.TextField(blank=True)
     enroll_courses = models.ManyToManyField('Course', related_name='students', blank=True)
+    email = models.EmailField(blank=True)
+    address = models.CharField(max_length=200,blank=True)
+    phone = models.CharField(max_length=200,blank=True)
+    proffections = models.CharField(max_length=200,blank=True)
+    skills = models.CharField(max_length=300,blank=True)
+    
+    
+    
 
     def __str__(self):
         return f'{self.user.username} Profile'

@@ -1,10 +1,12 @@
 {% extends 'blogs/base.html' %}
+{% block title %} Add Topic | {% endblock %}
+{% load widget_tweaks %}
+{% load static %}
+{% load highlight %}
+{{ form.media }}
 <style>
     {{ pygments_css|safe }}
 </style>
-
-{% load highlight %}
-
 
 {% block content %}
 <div class="container-fluid mt-4">
@@ -49,13 +51,11 @@
                         <h1 class="card-title" style="font-family:Roboto; sans-serif;
                              font-weight: 800;              
                         font-style: normal;margin-bottom:50px;">{{ topic.title }}</h1>
-                        <article>
-                            <p class="post-content" style="width:100%;overflow-x: scroll">{{ topic.body|safe }}</p>
-                        </article>
 
                         <article class="codehilite" >
                             {{ topic.body|syntax_highlight|safe }}
                        </article>
+                      <a href="{% url 'python-ide:ide' %}">Open Editor to practice </a></p> you can comeback to this section</p>
                     
                         
                     {% else %}
@@ -68,6 +68,9 @@
     </div>
 </div>
 
+<style>
+    {{ css_string|safe }}
+</style>
 
 {% block extral %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">

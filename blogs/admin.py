@@ -42,6 +42,10 @@ class ItemsAdmin(admin.ModelAdmin):
 
 class CourseTopicAdmin(admin.ModelAdmin):
     list_display = [ 'title','body']
+    formfield_overrides = {
+        models.TextField: {'widget': MarkItUpWidget(attrs={'cols': 80, 'rows': 30})},
+    }
+
 admin.site.register(CourseTopic, CourseTopicAdmin)
 
 

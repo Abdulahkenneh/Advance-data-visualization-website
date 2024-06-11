@@ -6,18 +6,21 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 import markdown2
+from django.shortcuts import render, get_object_or_404
+from .models import CourseTopic  # Ensure this is the correct import path
+import markdown2
+from pygments.formatters.html import HtmlFormatter
 from pygments.formatters import HtmlFormatter
 from .models import (
     Post, Course, CourseTopic, Profile, Achievement,
     UserCourseTopicProgress, Question, Choice, UserAnswer, Comment, Items
 )
 from .forms import (
-    CustomUserCreationForm, ProfileForm, CommentForm, ContactForm,
-    RegistrationForm, LoginForm, AchievementForm, UserAnswerForm,
-    CourseTopicForm, PostForm, SubcribeForm, NewsubcribersForm
+    ProfileForm, CommentForm, ContactForm,
+    RegistrationForm,AchievementForm, UserAnswerForm,
+    CourseTopicForm, PostForm,
 )
 
 
@@ -55,10 +58,7 @@ def home(request):
     return render(request, 'blogs/home.html', context)
 
 
-from django.shortcuts import render, get_object_or_404
-from .models import CourseTopic  # Ensure this is the correct import path
-import markdown2
-from pygments.formatters.html import HtmlFormatter
+
 
 def topics_view(request, topic_id):
     """View to display a specific topic and highlight its code."""
@@ -85,7 +85,7 @@ def topics_view(request, topic_id):
 
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def blogs_view(request):
     """Main blog view displaying paginated posts and handling comments."""
     items = Items.objects.all()
@@ -136,8 +136,7 @@ def all_courses(request):
     courses = Course.objects.all()
     return render(request, 'blogs/all_courses.html', {'courses': courses})
 
-
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def my_courses(request):
     """View displaying courses the user is registered for, along with their progress."""
     courses = Course.objects.filter(registered_users=request.user)
@@ -160,7 +159,7 @@ def recent_posts(request):
     return render(request, 'blogs/recent_posts.html', {'page_obj': page_obj})
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def course_topics(request, course_id):
     """View displaying topics of a specific course and their completion status."""
     course = get_object_or_404(Course, id=course_id, registered_users=request.user)
@@ -187,33 +186,24 @@ def course_topics(request, course_id):
     })
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def mark_topic_complete(request, topic_id):
     """View to mark a course topic as complete."""
     topic = get_object_or_404(CourseTopic, id=topic_id)
-    user_progress, created = UserCourseTopicProgress.objects.get_or_create(user=request.user, topic=topic)
-    user_progress.completed = True
-    user_progress.progress = 100
-    user_progress.save()
+    try:
+        user_progress, created = UserCourseTopicProgress.objects.get_or_create(user=request.user, topic=topic)
+        user_progress.completed = True
+        user_progress.progress = 100
+        user_progress.save()
+        messages.success(request, f"You have successfully completed the topic: {topic.title}")
+    except Exception as e:
+        messages.error(request, f"An error occurred: {str(e)}")
+    
     return redirect('blogs:course_topics', course_id=topic.course.id)
 
 
-def register(request):
-    """View for user registration."""
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            Profile.objects.create(user=user)
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            messages.success(request, 'Registration successful. You are now logged in.')
-            return redirect('blogs:home')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'blogs/register.html', {'form': form})
 
-
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def profile(request):
     """View for updating the user profile."""
     user = request.user
@@ -240,7 +230,7 @@ def profile(request):
     return render(request, 'blogs/profile.html', context)
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def download_achievement_view(request, id):
     """View to download an achievement as a PDF."""
     achievement = get_object_or_404(Achievement, id=id)
@@ -250,7 +240,7 @@ def download_achievement_view(request, id):
     return response
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def share_achievement_view(request, id):
     """View to share an achievement."""
     achievement = get_object_or_404(Achievement, id=id)
@@ -259,7 +249,7 @@ def share_achievement_view(request, id):
 
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def register_course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     if request.user in course.registered_users.all():
@@ -270,7 +260,7 @@ def register_course(request, course_id):
     return redirect('blogs:my_courses')
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def unregister_course(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     if request.user in course.registered_users.all():
@@ -281,80 +271,72 @@ def unregister_course(request, course_id):
     return redirect('blogs:my_courses')
 
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def course_delete_confirmation_view(request, course_id):
     course = get_object_or_404(Course, pk=course_id)
     context = {'course': course}
     return render(request, 'blogs/confirm_course_deletion.html', context)
 
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def motivation_view(request,course_id):
     course = get_object_or_404(Course, pk=course_id)
     return render(request, 'blogs/motivation.html',{'course':course})
 
-# user section login,registration, and logout
-
-def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)  # Correct instantiation
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-
-            if user is not None:
-                login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-                return redirect('blogs:home')  # Redirect to the homepage after login
-            else:
-                form.add_error(None, 'Invalid email/username or password')
-    else:
-        form = LoginForm()
-    return render(request, 'blogs/login.html', {'form': form})
 
 
-@login_required(login_url="/login/")
-def logout_view(request):
-    logout(request)
-    return redirect(reverse('blogs:home'))  # Redirect to the homepage after logout
-
-
-
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def take_quiz(request, course_id):
     questions = Question.objects.filter(course_id=course_id)
-    course = get_object_or_404(Course,id=course_id)
+    course = get_object_or_404(Course, id=course_id)
+
     if request.method == 'POST':
-        forms = []
-        for question in questions:
-            form = UserAnswerForm(request.POST, question=question)
-            forms.append(form)
-            if form.is_valid():
+        # Collect all the forms
+        forms = [UserAnswerForm(request.POST, question=question) for question in questions]
+
+        all_valid = True
+        for form in forms:
+            if not form.is_valid():
+                all_valid = False
+                break
+
+        if all_valid:
+            for form in forms:
                 user_answer, created = UserAnswer.objects.update_or_create(
                     user=request.user,
-                    question=question,
+                    question=form.cleaned_data['question'],
                     defaults={'choice': form.cleaned_data['choice']}
                 )
-        return redirect('blogs:quiz_results', course_id=course_id)
+                print(f"Saved answer for question {user_answer.question.id} - Choice: {user_answer.choice.id}")
+
+            return redirect('blogs:quiz_results', course_id=course_id)
+
     else:
         forms = [UserAnswerForm(question=question) for question in questions]
-    return render(request, 'blogs/take_quiz.html', {'forms': forms,'course':course, 'questions': questions})
 
-@login_required
+    return render(request, 'blogs/take_quiz.html', {'forms': forms, 'course': course, 'questions': questions})
+
+
+@login_required(login_url="/logusers/login/")
 def quiz_results(request, course_id):
     questions = Question.objects.filter(course_id=course_id)
     user_answers = UserAnswer.objects.filter(user=request.user, question__course_id=course_id)
+
+    # Debugging: print user answers
+    print("User Answers: ", user_answers)
+
+    for answer in user_answers:
+        print(f"Question ID: {answer.question.id}, Choice ID: {answer.choice.id}, Is Correct: {answer.choice.is_correct}")
+
     score = sum(1 for answer in user_answers if answer.choice.is_correct)
     total_questions = questions.count()
+
     return render(request, 'blogs/quiz_results.html', {
         'score': score,
         'total_questions': total_questions,
-        'course_id':course_id
+        'course_id': course_id,
     })
 
-
-
-
-@login_required(login_url="/login/")
+@login_required(login_url="/logusers/login/")
 def add_course_topic(request):
     if request.method == 'POST':
         form = CourseTopicForm(request.POST, request.FILES)
@@ -370,9 +352,6 @@ def add_course_topic(request):
 
 
 
-
-
-
 def create_blogpost(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
@@ -385,11 +364,12 @@ def create_blogpost(request):
         form = PostForm()
     return render(request, 'blogs/create_blogpost.html', {'form': form})
 
-
-    return render(request, 'blogs/base.html', {'form': form})
-
-
-
+@login_required(login_url="/logusers/login/")
 def items_view(request):
     items = Items.objects.all()
     return render(request,'blogs/items.html',{'items':items})
+
+
+def pofolio(request,post_id):
+    post = get_object_or_404(Post,id=post_id)
+    return render(request,'blogs/mypofolio.html',{'post':post})

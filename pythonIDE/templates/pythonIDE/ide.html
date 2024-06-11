@@ -1,0 +1,47 @@
+{% extends 'blogs/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Editor Column -->
+        <div class="col-12 col-md-6 mb-4" style='z-index:0;'>
+            <form method="post" >
+                {% csrf_token %}
+                <div id="editor" style="height: 400px; border: 1px solid #ddd;"></div>
+                <textarea id="code" name="code" style="display: none;">{{ form.code.value }}</textarea>
+                <button type="submit" class="btn btn-primary mt-2">Execute</button>
+            </form>
+        </div>
+        <!-- Result Column -->
+        <div class="col-12 col-md-6" style='z-index:100;'>
+            {% if result %}
+                <h2 class="text-primary">Result:</h2>
+                <pre style="color: white; background-color: #333; padding: 10px; border-radius: 5px;">{{ result }}</pre>
+            {% endif %}
+
+            {% if error %}
+                <h2 class="text-danger">Error:</h2>
+                <pre style="color: white; background-color: #333; padding: 10px; border-radius: 5px;">{{ error }}</pre>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+        var editor = monaco.editor.create(document.getElementById('editor'), {
+            value: document.getElementById('code').value || '# Write your Python code here...',
+            language: 'python',
+            theme: 'vs-dark'
+        });
+
+        editor.onDidChangeModelContent(function(){
+            document.getElementById('code').value = editor.getValue();
+        });
+    });
+</script>
+{% endblock %}

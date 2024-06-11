@@ -6,10 +6,10 @@ from .sitemaps import PostSitemap, CourseTopicSitemap  # Import your sitemap cla
 from .views import (
     home, recent_posts, course_topics, mark_topic_complete,
     register_course, all_courses, profile, course_delete_confirmation_view,
-    unregister_course, my_courses, motivation_view, login_view, register,
-    logout_view, quiz_results, take_quiz, add_course_topic, blogs_view,
+    unregister_course, my_courses, motivation_view,
+     quiz_results, take_quiz, add_course_topic, blogs_view,
     topics_view, download_achievement_view, share_achievement_view,
-    create_blogpost, items_view
+    create_blogpost, items_view,pofolio
 )
 
 sitemaps = {
@@ -22,10 +22,8 @@ urlpatterns = [
     path('post/', blogs_view, name='post'),
     path('items/', items_view, name='items'),
     path('recent-posts/', recent_posts, name='recent_posts'),
-    path('login/', login_view, name='login'),
-    path('logout/', logout_view, name='logout'),
+    path('user-pofolio/<int:post_id>/',pofolio,name='user-pofolio'),
     path('add-topic/', add_course_topic, name='add_topic'),
-    path('register_user/', register, name='register'),
     path('profile/', profile, name='profile'),
     path('achievements/download/<int:id>/', download_achievement_view, name='download_achievement'),
     path('achievements/share/<int:id>/', share_achievement_view, name='share_achievement'),

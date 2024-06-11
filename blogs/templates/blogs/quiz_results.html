@@ -4,7 +4,13 @@
 <div class="container mt-4">
     <div class="alert alert-info" role="alert">
         <h1 class="alert-heading">Quiz Results</h1>
+         {% if total_percentage == 100 %}
+        
+        <p>Congratulations! Your score: <strong>{{ score }}</strong> out of <strong>{{ total_questions }}</strong></p>
+        <a href = '#'>See certificate </a>
+        {% else %}
         <p>Your score: <strong>{{ score }}</strong> out of <strong>{{ total_questions }}</strong></p>
+        {% endif %}
     </div>
     <a href="{% url 'blogs:course_topics' course_id %}" class="btn btn-primary">Back to Course</a>
 </div>

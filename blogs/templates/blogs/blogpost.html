@@ -46,7 +46,7 @@
                         <img src="{% static 'images/th.jpg' %}" alt="{{ comment.title }}" style="width: 40px; height: 40px; border-radius: 50%;">
                
                        {% endif %}
-                            Last updated - by {{ post.user }} on {{ post.created_at|date:'M d, Y H:i' }}
+                            Last updated - by <a href ="{% url 'blogs:user-pofolio' post.id%}" style='font-weight:bold'> {{ post.user }}</a> on {{ post.created_at|date:'M d, Y H:i' }}
                         </p>
                         <h1 class="post-title playfair-display-title" style="font-family:Roboto; font-weight: 800; font-style: normal; margin-bottom:50px;">
                             {{ post.title }}

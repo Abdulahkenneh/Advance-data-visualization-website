@@ -32,6 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 SECRET_KEY =config('SECRET_KEY')
 
+# settings.py
+ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =config('DEBUG') =='True'
@@ -60,14 +62,15 @@ INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.sitemaps',
     'django.contrib.sites',
-   # 'django_summernote'
     'tinymce',
     'markitup',
     'mptt',
     'comments',
     'markdownx',
+    'pythonIDE',
+    'logusers',
     
-
+    
 
 ]
 
@@ -176,85 +179,19 @@ SESSION_COOKIE_AGE = 86400
 
 # Make sessions expire when the user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-LOGING_URL ='/login/'
-
+LOGING_URL ='/logusers/login/'
 
 
-# SUMMERNOTE_CONFIG = {
-#     'summernote': {
-#         'width': '100%',
-#         'height': '450',
-#         'codemirror': {
-#             'mode': 'htmlmixed',
-#             'lineNumbers': 'true',
-#             'lineWrapping': 'true',
-#             'thame':'monokai',
-#         },
-#         'css': (
-#             'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css',
-#             'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',
-#             # Inline custom CSS
-#             'data:text/css;charset=utf-8,' + (
-#                 'body .note-editable { '
-#                 'width: 100%; '
-#                 'overflow-x: auto; '
-#                 'background: #f8f9fa; '
-#                 'border: 1px solid #ced4da; '
-#                 'border-radius: .25rem; '
-#                 'padding: 1rem; '
-#                 '} '
-#                 '.CodeMirror { '
-#                 'width: 100% !important; '
-#                 'border: 1px solid #ced4da; '
-#                 'border-radius: .25rem; '
-#                 '} '
-#                 'pre, code { '
-#                 'background: white; '
-#                 'border: 1px solid #ced4da; '
-#                 'border-radius: .25rem; '
-#                 'padding: .5rem; '
-#                 'overflow-x: 1000%; '
-#                 'display: block; '
-#                 'white-space: pre-wrap; '
-#                 'word-wrap: break-word; '
-#                 '}'
-#             )
-#         ),
-#     }
-# }
 
-# #TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/pncgjiu1hd1pajsiie6xtro3xmi6az2ctrdtvhhdvz4892nx/tinymce/6/tinymce.min.js";
-# TINYMCE_JS_URL = 'https://cdn.tiny.cloud/1/pncgjiu1hd1pajsiie6xtro3xmi6az2ctrdtvhhdvz4892nx/tinymce/7/tinymce.min.js'
-# TINYMCE_COMPRESSOR = False
-# TINYMCE_DEFAULT_CONFIG = {
-#     'height': 360,
-#     'width': 1000,
-#     'cleanup_on_startup': True,
-#     'custom_undo_redo_levels': 20,
-#     'selector': 'textarea',
-#     'theme': 'modern',
-#     'plugins': '''
-#         textcolor save link image media preview codesample contextmenu
-#         table code lists fullscreen  insertdatetime  nonbreaking
-#         contextmenu directionality searchreplace wordcount visualblocks
-#         visualchars code fullscreen autolink lists  charmap print  hr
-#         anchor pagebreak
-#         ''',
-#     'toolbar1': '''
-#         fullscreen preview bold italic underline | fontselect,
-#         fontsizeselect  | forecolor backcolor | alignleft alignright |
-#         aligncenter alignjustify | indent outdent | bullist numlist table |
-#         | link image media | codesample |
-#         ''',
-#     'toolbar2': '''
-#         visualblocks visualchars |
-#         charmap hr pagebreak nonbreaking anchor |  code |
-#         ''',
-#     'contextmenu': 'formats | link image',
-#     'menubar': True,
-#     'statusbar': True,
-# }
+#code mirror ide setting
+
+CODEMIRROR_SETTINGS = {
+    'theme':'material',
+    'lineNumbers':True,
+}
+
+
+
 
 
 
@@ -270,8 +207,9 @@ MARKDOWN_EXTRA = {
 }
 
 
+
+
+
 #APPEND_SLASH = False
-
-
 # Activate Django-Heroku.
 django_heroku.settings(locals())
