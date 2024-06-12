@@ -33,20 +33,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY =config('SECRET_KEY')
 
 # settings.py
-ALLOWED_HOSTS = ['*']
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =config('DEBUG') =='True'
 
 # Application definition
 # GOOGLE CLOUD STORAGE SETTING
-# DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
-# GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
-# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-#     os.path.join(BASE_DIR, 'demon/demon.json')
-# )
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'data-analytic-bucket'  # Provide your bucket name here
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, 'demon/demon.json')
+)
 
-# MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 
 
 SITE_ID = 1
@@ -63,10 +63,6 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'tinymce',
-    # 'markitup',
-    # 'mptt',
-    # 'comments',
-    # 'markdownx',
     'pythonIDE',
     'logusers',
     
@@ -115,8 +111,8 @@ DATABASES = {
     }
 }
 
-# db_rom_env = dj_database_url.config('conn_max_age=600')
-# DATABASES['default'].update(db_rom_env)
+db_rom_env = dj_database_url.config('conn_max_age=600')
+DATABASES['default'].update(db_rom_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -157,7 +153,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-MEDIA_URL ='media/'
+#MEDIA_URL ='media/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
@@ -190,24 +186,6 @@ CODEMIRROR_SETTINGS = {
     'theme':'material',
     'lineNumbers':True,
 }
-
-
-
-
-
-
-# MARKITUP_FILTER = ('markdown.markdown', {'safe_mode':'escape'})
-# #MARKITUP_SET = 'markitup/sets/markdown'
-# MARKITUP_SKIN = 'markitup/skins/simple'
-
-# MARKDOWN_EXTRA = {
-#     'code-friendly': True,  # Enable code-friendly mode
-#     'html-in-title': True,  # Allow HTML in titles
-#     'tags': ['fenced-code-blocks'],  # Enable fenced code blocks
-#     'css': '.codehilite { background-color: #333333; color: #333333; }',  # Custom CSS for code blocks
-# }
-
-
 
 
 APPEND_SLASH = False
