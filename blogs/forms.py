@@ -1,5 +1,4 @@
 # your_app/forms.py
-from markitup.widgets import MarkItUpWidget
 from django import forms
 from django.contrib.auth.models import User
 from .models import Profile,Achievement
@@ -45,9 +44,7 @@ class CourseTopicForm(forms.ModelForm):
     class Meta:
         model = CourseTopic
         fields = ['title', 'body', 'image','course']
-        widgets = {
-            'body': MarkItUpWidget(attrs={'cols': 80, 'rows': 30}),
-        }
+       
      
       
 
@@ -56,9 +53,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'body', 'thumbnail']
-        widgets = {
-            'body': MarkItUpWidget(attrs={'cols': 80, 'rows': 30}),
-        }
+      
 
 
 

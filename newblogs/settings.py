@@ -63,10 +63,10 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'tinymce',
-    'markitup',
-    'mptt',
-    'comments',
-    'markdownx',
+    # 'markitup',
+    # 'mptt',
+    # 'comments',
+    # 'markdownx',
     'pythonIDE',
     'logusers',
     
@@ -117,6 +117,7 @@ DATABASES = {
 
 # db_rom_env = dj_database_url.config('conn_max_age=600')
 # DATABASES['default'].update(db_rom_env)
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -155,12 +156,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-
 ]
 MEDIA_URL ='media/'
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -195,21 +196,20 @@ CODEMIRROR_SETTINGS = {
 
 
 
-MARKITUP_FILTER = ('markdown.markdown', {'safe_mode':'escape'})
-MARKITUP_SET = 'markitup/sets/markdown'
-MARKITUP_SKIN = 'markitup/skins/simple'
+# MARKITUP_FILTER = ('markdown.markdown', {'safe_mode':'escape'})
+# #MARKITUP_SET = 'markitup/sets/markdown'
+# MARKITUP_SKIN = 'markitup/skins/simple'
 
-MARKDOWN_EXTRA = {
-    'code-friendly': True,  # Enable code-friendly mode
-    'html-in-title': True,  # Allow HTML in titles
-    'tags': ['fenced-code-blocks'],  # Enable fenced code blocks
-    'css': '.codehilite { background-color: #333333; color: #333333; }',  # Custom CSS for code blocks
-}
-
-
+# MARKDOWN_EXTRA = {
+#     'code-friendly': True,  # Enable code-friendly mode
+#     'html-in-title': True,  # Allow HTML in titles
+#     'tags': ['fenced-code-blocks'],  # Enable fenced code blocks
+#     'css': '.codehilite { background-color: #333333; color: #333333; }',  # Custom CSS for code blocks
+# }
 
 
 
-#APPEND_SLASH = False
+
+APPEND_SLASH = False
 # Activate Django-Heroku.
 django_heroku.settings(locals())

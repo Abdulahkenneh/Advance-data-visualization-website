@@ -351,7 +351,7 @@ def add_course_topic(request):
     return render(request, 'blogs/add_course_topic.html', {'form': form})
 
 
-
+@login_required(login_url="/logusers/login/")
 def create_blogpost(request):
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
