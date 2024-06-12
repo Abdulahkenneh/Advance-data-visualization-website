@@ -108,14 +108,14 @@ WSGI_APPLICATION = 'newblogs.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
     }
 }
 
 
 
-db_rom_env = dj_database_url.config('conn_max_age=600')
-DATABASES['default'].update(db_rom_env)
+# db_rom_env = dj_database_url.config('conn_max_age=600')
+# DATABASES['default'].update(db_rom_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -152,9 +152,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+if not os.path.exists(MEDIA_ROOT):
+    os.makedirs(MEDIA_ROOT)
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+if not os.path.exists(STATIC_ROOT):
+    os.makedirs(STATIC_ROOT)
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, 'static'),
 ]
 #MEDIA_URL ='media/'
 
@@ -191,6 +197,6 @@ CODEMIRROR_SETTINGS = {
 }
 
 
-APPEND_SLASH = False
+#APPEND_SLASH = False
 # Activate Django-Heroku.
 django_heroku.settings(locals())
